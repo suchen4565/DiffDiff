@@ -1,0 +1,33 @@
+dataset: weather
+shared:
+  model_config: DiffDiff
+  condition: fcst
+  label_len: 48
+  batch_size: 64
+  n_sample: 100
+  ddim_steps: 10
+  pred_lens: [96, 192, 336, 720]
+
+train_args:
+  d_model: 96
+  d_mlp: 384
+  n_layers: 2
+  dropout: 0.1
+  lr: 1.0e-5
+  lr_sched: constant
+  min_lr_ratio: 0.01
+  early_stop: 15
+  gate_init_bias: 0
+  gate_l1_weight: 1.0e-3
+  norm_source: target
+  label_replace: none
+
+sample_args:
+  deterministic: true
+  w_cond: 1.0
+
+expected:
+  H96:  {MSE: 0.0930, MAE: 0.2224, CRPS: 0.0938, MSE_std: 0.0008, MAE_std: 0.0013, CRPS_std: 0.0006}
+  H192: {MSE: 0.1346, MAE: 0.2709, CRPS: 0.1126, MSE_std: 0.0008, MAE_std: 0.0009, CRPS_std: 0.0004}
+  H336: {MSE: 0.2007, MAE: 0.3316, CRPS: 0.1375, MSE_std: 0.0021, MAE_std: 0.0019, CRPS_std: 0.0007}
+  H720: {MSE: 0.3162, MAE: 0.4239, CRPS: 0.1775, MSE_std: 0.0034, MAE_std: 0.0032, CRPS_std: 0.0016}

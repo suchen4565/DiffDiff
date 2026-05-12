@@ -1,0 +1,32 @@
+bb_config:
+  name: MLPBackbone
+  d_model: 128
+  d_mlp: 512
+  n_layers: 3
+  dropout: 0.1
+  cond_dropout_prob: 0.0
+  norm: on
+  freq_denoise: off
+  adaptive_cond: true
+  gate_init_bias: -2.0
+  gate_l1_weight: 0.0
+
+diff_config:
+  name: DiffDiff
+  noise_schedule: cosine
+  norm: on
+  T: 50
+  lambda_max: 0.5
+  lambda_schedule: linear
+  loss_weight_future: 5.0
+  d2_normalize: false
+  diff_order: 2
+  norm_source: target
+  label_replace: none
+
+train_config:
+  epochs: 100
+  lr: 2.0e-4
+  early_stop: 5
+  val_step: 1
+  alpha: 1.0e-5

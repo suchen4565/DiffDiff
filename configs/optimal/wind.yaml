@@ -1,0 +1,32 @@
+dataset: wind
+shared:
+  model_config: DiffDiff
+  condition: fcst
+  label_len: 48
+  batch_size: 64
+  n_sample: 100
+  ddim_steps: 10
+  pred_lens: [96, 192, 336, 720]
+
+train_args:
+  d_model: 128
+  d_mlp: 512
+  n_layers: 3
+  dropout: 0.3
+  lr: 2.0e-4
+  lr_sched: constant
+  early_stop: 5
+  gate_init_bias: -2
+  gate_l1_weight: 1.0e-2
+  norm_source: target
+  label_replace: none
+
+sample_args:
+  deterministic: true
+  w_cond: 1.0
+
+expected:
+  H96:  {MSE: 0.6131, MAE: 0.5522, CRPS: 0.2299, MSE_std: 0.0187, MAE_std: 0.0097, CRPS_std: 0.0040}
+  H192: {MSE: 0.8070, MAE: 0.6665, CRPS: 0.2751, MSE_std: 0.0176, MAE_std: 0.0087, CRPS_std: 0.0047}
+  H336: {MSE: 0.8852, MAE: 0.7332, CRPS: 0.2966, MSE_std: 0.0115, MAE_std: 0.0063, CRPS_std: 0.0016}
+  H720: {MSE: 0.9506, MAE: 0.7788, CRPS: 0.3090, MSE_std: 0.0251, MAE_std: 0.0128, CRPS_std: 0.0043}

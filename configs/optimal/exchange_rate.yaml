@@ -1,0 +1,32 @@
+dataset: exchange_rate
+shared:
+  model_config: DiffDiff
+  condition: fcst
+  label_len: 48
+  batch_size: 64
+  n_sample: 100
+  ddim_steps: 10
+  pred_lens: [96, 192, 336, 720]
+
+train_args:
+  d_model: 128
+  d_mlp: 512
+  n_layers: 6
+  dropout: 0.05
+  lr: 1.0e-4
+  lr_sched: constant
+  early_stop: 5
+  gate_init_bias: -3
+  gate_l1_weight: 1.0e-4
+  norm_source: target
+  label_replace: none
+
+sample_args:
+  deterministic: true
+  w_cond: 1.0
+
+expected:
+  H96:  {MSE: 0.0954, MAE: 0.2382, CRPS: 0.0997, MSE_std: 0.0011, MAE_std: 0.0015, CRPS_std: 0.0016}
+  H192: {MSE: 0.1890, MAE: 0.3499, CRPS: 0.1467, MSE_std: 0.0082, MAE_std: 0.0081, CRPS_std: 0.0013}
+  H336: {MSE: 0.3350, MAE: 0.4775, CRPS: 0.1951, MSE_std: 0.0149, MAE_std: 0.0168, CRPS_std: 0.0080}
+  H720: {MSE: 0.7636, MAE: 0.7443, CRPS: 0.3333, MSE_std: 0.0925, MAE_std: 0.0510, CRPS_std: 0.0320}

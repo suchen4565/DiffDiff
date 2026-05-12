@@ -1,0 +1,12 @@
+data: ETTm2
+root_path: ./data/
+data_path: ETTm2.csv
+features: S
+target: OT
+num_workers: 1
+seq_len: 96
+pred_len: 96
+label_len: 0
+batch_size: 128
+condition: Null
+kernel_size: 8

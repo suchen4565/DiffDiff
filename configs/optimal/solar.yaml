@@ -1,0 +1,33 @@
+dataset: solar
+shared:
+  model_config: DiffDiff
+  condition: fcst
+  label_len: 48
+  batch_size: 64
+  n_sample: 100
+  ddim_steps: 10
+  pred_lens: [96, 192, 336, 720]
+
+train_args:
+  d_model: 64
+  d_mlp: 256
+  n_layers: 3
+  dropout: 0.1
+  lr: 4.0e-4
+  lr_sched: cosine
+  min_lr_ratio: 0.01
+  early_stop: 15
+  gate_init_bias: -3
+  gate_l1_weight: 1.0e-2
+  norm_source: target
+  label_replace: none
+
+sample_args:
+  deterministic: true
+  w_cond: 1.0
+
+expected:
+  H96:  {MSE: 0.4465, MAE: 0.4239, CRPS: 0.1855, MSE_std: 0.0341, MAE_std: 0.0231, CRPS_std: 0.0102}
+  H192: {MSE: 0.4507, MAE: 0.4286, CRPS: 0.1824, MSE_std: 0.0293, MAE_std: 0.0126, CRPS_std: 0.0069}
+  H336: {MSE: 0.3853, MAE: 0.3971, CRPS: 0.1633, MSE_std: 0.0128, MAE_std: 0.0095, CRPS_std: 0.0036}
+  H720: {MSE: 0.4780, MAE: 0.4400, CRPS: 0.1830, MSE_std: 0.0319, MAE_std: 0.0188, CRPS_std: 0.0081}
